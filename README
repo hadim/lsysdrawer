@@ -1,0 +1,16 @@
+## Required library and software:
+
+* python > 2.6
+* VPython : - http://www.vpython.org/
+           - apt-get install python-visual or python-vpython on debian
+             based system
+* VTK : - http://www.vtk.org/
+        - apt-get install python-vtk on debian based system
+        - should be vtk-python on red hat based system
+
+## How to run?
+
+$ python main.y <path to .ls file>
+
+## There is some .ls file in data/ folder.
+## One click is needed on the window to advance to the next iteration.

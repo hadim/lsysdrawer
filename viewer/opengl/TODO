@@ -1,0 +1,10 @@
+re make all classes -> little python opengl library
+
+idea of classes :
+    * class matrix
+    * class math
+    * class camera
+    * class quadrics
+    * class VBO
+    * class gl_drawers
+    * class light

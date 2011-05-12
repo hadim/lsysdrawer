@@ -1,0 +1,33 @@
+* make 3d viewer
+
+* stochastic behaviour
+
+axiom : F
+p1 : F : 0.33 -> F[+F]F[-F]F
+p2 : F : 0.33 -> F[+F]F
+p3 : F : 0.33 -> F[-F]F
+
+* context sensitive
+
+axiom : baaaaaaaa
+p1 : b < a -> b
+p2 : b -> a
+
+#ignore : +-
+axiom : Fa [+Fa ]Fa [-Fa ]Fa [+Fa ]Fb
+p1 : Fa > Fb -> Fb
+
+* parametric l system
+
+n = 10
+#define r1 0.9     /* contraction ratio for the trunk */
+#define r2 0.6     /* contraction ratio for branches */
+#define a0 45      /* branching angle from the trunk */
+#define a2 45      /* branching angle for lateral axes */
+#define d 137.5    /* divergence angle */
+#define wr 0.707   /* width decrease rate */
+
+axiom : A(1,10)
+p1 : A(l,w) : * -> !(w)F(l)[&(a0 )B(l*r2 ,w*wr )]/(d)A(l*r1 ,w*wr )
+p2 : B(l,w) : * -> !(w)F(l)[-(a2 )$C(l*r2 ,w*wr )]C(l*r1 ,w*wr )
+p3 : C(l,w) : * -> !(w)F(l)[+(a2 )$B(l*r2 ,w*wr )]B(l*r1 ,w*wr )
