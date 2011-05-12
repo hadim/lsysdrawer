@@ -6,6 +6,8 @@ import vtk
 from viewer.viewer import *
 from viewer.vtk.geometry import *
 
+from utils import *
+
 from math import *
 
 class VViewer(Viewer):
@@ -29,14 +31,16 @@ class VViewer(Viewer):
         # Text to display
         self.toDisp = []
 
+        self.renderTime = 50
+        self.nbranches = 0
+        self.tubeActors = []
+        self.lines = []
+
         self.init()
 
     def init(self):
         """
         """
-
-        # List of line to draw
-        self.lines = []
 
         # Symbol behaviour initialisation
         self.draw_forward = ['F', 'B', 'G', 'R']
@@ -89,9 +93,15 @@ class VViewer(Viewer):
         self.disp_info()
         #self.draw_axis()
         self.advance()
-        self.renWin.Render()
+        self.render_window()
 
         self.iren.Start()
+
+    def render_window(self, widget = None, string = None):
+        """
+        """
+
+        self.renWin.Render()
 
     def advance(self, widget = None, string = None):
         """
@@ -107,13 +117,13 @@ class VViewer(Viewer):
 
                 i = int(self.lsystem.current_iter)
                 print "Step n. %i" % i
-                print state
-
-                self.disp_info()
+                #print state
 
                 self.draw(state, i)
+                self.disp_info()
+                
                 self.rend.ResetCamera()
-                self.renWin.Render()
+                self.render_window()
 
             except StopIteration :
                 self.iterIsOver = True
@@ -128,10 +138,14 @@ class VViewer(Viewer):
         self.vector = Point(1, 0, 0)
         self.pos = Point(0, 0, 0)
 
+        drawed_state = ""
+
         # Compute lines to be drawing
+        i = 0
         for s in state:
 
             symbol = self.lsystem.get_symbol(s)
+            drawed_state += symbol
 
             # Set color
             self.set_color(symbol)
@@ -139,15 +153,20 @@ class VViewer(Viewer):
             # Execute symbol
             self.execute_symbol(symbol)
 
-        # Draw lines
-        for l in self.lines:
+            progress(i*100.0/len(state))
+            i += 1
 
-            self.draw_line(l)
+        progress(-1)
+        self.check_objects(drawed_state)
 
             
     def draw_line(self, l):
         """
         """
+
+        if l in self.lines:
+            return
+        self.lines.append(l)
 
         line = vtk.vtkLineSource()
         line.SetPoint1(l.p1.x, l.p1.y, l.p1.z)
@@ -166,13 +185,14 @@ class VViewer(Viewer):
 
         tubeMapper = vtk.vtkPolyDataMapper()
         tubeMapper.SetInputConnection(tubeFilter.GetOutputPort())
+        
         tubeActor = vtk.vtkActor()
         tubeActor.SetMapper(tubeMapper)
         tubeActor.GetProperty().SetColor(l.color[0], l.color[1], l.color[2])
 
         self.rend.AddActor(tubeActor)
+        self.tubeActors.append(tubeActor)
         #self.rend.AddActor(lineActor)
-        
 
     def execute_symbol(self, symbol):
         """
@@ -182,11 +202,6 @@ class VViewer(Viewer):
             """
             Draw forward
             """
-
-            # self.lines.append( Line(p1 = self.pos,
-            #                         p2 = self.pos + self.vector,
-            #                         color = self.color,
-            #                         radius = self.radius) )
 
             self.draw_line( Line(p1 = self.pos,
                                  p2 = self.pos + self.vector,
@@ -289,6 +304,10 @@ class VViewer(Viewer):
         self.disp_text("Step : " + prefix,
                        posx = 'left', posy = 'down')
 
+        # Display lsystem name
+        self.disp_text("Number of branches : %d" % self.nbranches,
+                       posx = 'right', posy = 'down')
+
     def update_text(self, widget = None, string = None):
         """
         """
@@ -306,7 +325,7 @@ class VViewer(Viewer):
                     posx = t['border']
 
                 elif t['posx'] == 'right':
-                    posx = size[0] - t['border']
+                    posx = size[0] - t['border'] - len(t['string']) * 10
 
                 elif t['posx'] == 'center':
                     posx = size[0] / 2.0 - 65
@@ -433,3 +452,10 @@ class VViewer(Viewer):
             self.color = (255, 0, 0)
         else:
             self.color = (255, 255, 255)
+
+    def check_objects(self, state):
+        """
+        """
+
+        self.nbranches = len(self.tubeActors)
+        
