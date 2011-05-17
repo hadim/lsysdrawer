@@ -117,7 +117,7 @@ class VViewer(Viewer):
 
                 i = int(self.lsystem.current_iter)
                 print "Step n. %i" % i
-                #print state
+                print state
 
                 self.draw(state, i)
                 self.disp_info()
@@ -459,3 +459,34 @@ class VViewer(Viewer):
 
         self.nbranches = len(self.tubeActors)
         
+
+    def getDict(self, string):
+        """
+        """
+
+        state = []
+        params = False
+        currentParams = ''
+
+        for l in string:
+            if l == '(':
+                params = True
+                
+            elif l == ')':
+                params = False
+                if currentParams:
+                    state[-1]['params'] = currentParams.split(',')
+                    print currentParams
+                    state[-1]['raw'] += '(' + currentParams.strip()  + ')'
+                    currentParams = ''
+                    
+            elif not params:
+                letter = { 'letter' : l,
+                           'params' : [],
+                           'raw' : l }
+                state.append(letter)
+                
+            elif params:
+                currentParams += l
+
+        return state

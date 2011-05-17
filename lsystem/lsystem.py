@@ -71,7 +71,7 @@ class Lsystem():
     def next(self):
         """
         """
-
+        
         if self.current_iter >= self.iteration:
             self.current_iter = 0
             raise StopIteration
@@ -84,19 +84,22 @@ class Lsystem():
         """
         """
 
+        # Convert state as a list of dict
+        self.state_as_dict = self.getDict(self.current_state)
+
         # Calculate next state
         new_state = ''
         i = 0
-        for letter in self.current_state:
+        for letter in self.state_as_dict:
 
-            new_letters = letter
+            new_letters = letter['raw']
             
             # Look for rules
             rule = self.get_rule(letter, i)
             i += 1
             
             if rule:
-                new_letters = ''.join(rule['out'])
+                new_letters = rule['out']
 
             new_state += new_letters
 
@@ -136,7 +139,7 @@ class Lsystem():
             if context:
                 contextOk = self.checkContext(position, sign, toCheck)
                 
-            if cleanInit == letter and contextOk:
+            if cleanInit == letter['letter'] and contextOk:
                 candidates[name] = (p, float(rule['p']) + p)
                 p += float(rule['p'])
 
@@ -165,10 +168,10 @@ class Lsystem():
         # Clean state with ignored symbols
         state = []
         i = j = 0
-        for l in self.current_state:
+        for l in self.state_as_dict:
             if i == position:
                 position = j
-            if l not in self.ignores:
+            if l['letter'] not in self.ignores:
                 state.append(l)
                 j += 1
             i += 1
@@ -194,9 +197,7 @@ class Lsystem():
             #     print
             #     raw_input()
 
-            if idx != 'NO' and idx < len(state) and state[idx].strip() == toCheck.strip():
-                # print 'VALID'
-                # raw_input()
+            if idx != 'NO' and idx < len(state) and state[idx]['letter'] == toCheck.strip():
                 return True
             else:
                 return False
@@ -204,4 +205,35 @@ class Lsystem():
         else:
             return False
 
+        
+    def getDict(self, string):
+        """
+        """
+
+        state = []
+        params = False
+        currentParams = ''
+
+        for l in string:
+            if l == '(':
+                params = True
+                
+            elif l == ')':
+                params = False
+                if currentParams:
+                    state[-1]['params'] = currentParams.split(',')
+                    print currentParams
+                    state[-1]['raw'] += '(' + currentParams.strip()  + ')'
+                    currentParams = ''
+                    
+            elif not params:
+                letter = { 'letter' : l,
+                           'params' : [],
+                           'raw' : l }
+                state.append(letter)
+                
+            elif params:
+                currentParams += l
+
+        return state
         
