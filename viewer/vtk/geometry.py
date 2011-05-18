@@ -20,6 +20,13 @@ class Point():
 
         return Point(self.x + p.x, self.y + p.y, self.z + p.z)
 
+    def __mul__(self, f):
+        """
+        """
+
+        f = float(f)
+        return Point(self.x * f, self.y * f, self.z * f)
+
     def __str__(self):
         """
         """

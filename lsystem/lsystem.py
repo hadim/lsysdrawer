@@ -2,7 +2,7 @@
 
 from lsystem_extractor import *
 
-import random
+import random, copy
 
 class Lsystem():
     """
@@ -16,19 +16,27 @@ class Lsystem():
 
         self.name = grammar.name
         self.axiom = grammar.axiom
+        self.initial_axiom = copy.copy(grammar.axiom)
         self.angle = float(grammar.angle)
         self.ratio = float(grammar.ratio)
         self.iteration = int(grammar.iteration)
 
         self.rules = grammar.rules
+        self.initial_rules = copy.copy(grammar.rules)
         self.symbols = grammar.symbols
         self.define = grammar.define
         self.ignores = grammar.ignores
         
         self.current_iter = 0
 
+        self.replace_defines()
+        
         # Init l-system
         self.current_state = self.axiom
+        
+        # Convert state as a list of dict
+        self.state_as_dict = self.getDict(self.current_state)
+        print self.axiom
 
     def __str__(self):
         """
@@ -41,7 +49,7 @@ class Lsystem():
         s += 'Angle : ' + str(self.angle) + newline
         s += 'Ratio : ' + str(self.ratio) + newline
         s += 'Number of iterations : ' + str(self.iteration) + newline
-        s += 'Axiom : ' + str(self.axiom) + newline
+        s += 'Axiom : ' + str(self.initial_axiom) + newline
         s += newline
 
         s += 'Defined parameters : ' + str(self.define) + newline
@@ -49,7 +57,7 @@ class Lsystem():
         s += newline
 
         s += 'Alphabet ( with correspondance ): ' + str(self.symbols) + newline
-        s += 'Rules are : ' + str(self.rules) + newline
+        s += 'Rules are : ' + str(self.initial_rules) + newline
 
         return s
 
@@ -84,9 +92,6 @@ class Lsystem():
         """
         """
 
-        # Convert state as a list of dict
-        self.state_as_dict = self.getDict(self.current_state)
-
         # Calculate next state
         new_state = ''
         i = 0
@@ -103,10 +108,13 @@ class Lsystem():
 
             new_state += new_letters
 
-        state_to_return = self.current_state
+        self.previous_state = self.current_state
+        self.previous_state_as_dict = self.state_as_dict
+        
         self.current_state = new_state
+        self.state_as_dict = self.getDict(new_state)
 
-        return state_to_return
+        return self.previous_state_as_dict
 
     def get_rule(self, letter, position):
         """
@@ -160,6 +168,22 @@ class Lsystem():
             return self.symbols[s]
         else:
             return s
+
+    def replace_defines(self):
+        """
+        Replace defines variables
+        """
+
+        # Replace in axiom
+        for var in self.define:
+
+            # Replace in axiom
+            self.axiom = self.axiom.replace(var, str(self.define[var]))
+
+            # Replace in rules
+            for r in self.rules:
+                self.rules[r]['out'] = self.rules[r]['out'].replace(var, str(self.define[var]))
+
 
     def checkContext(self, position, sign, toCheck):
         """
@@ -222,7 +246,6 @@ class Lsystem():
                 params = False
                 if currentParams:
                     state[-1]['params'] = currentParams.split(',')
-                    print currentParams
                     state[-1]['raw'] += '(' + currentParams.strip()  + ')'
                     currentParams = ''
                     

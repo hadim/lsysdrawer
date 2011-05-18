@@ -117,7 +117,7 @@ class VViewer(Viewer):
 
                 i = int(self.lsystem.current_iter)
                 print "Step n. %i" % i
-                print state
+                print self.lsystem.previous_state
 
                 self.draw(state, i)
                 self.disp_info()
@@ -144,14 +144,16 @@ class VViewer(Viewer):
         i = 0
         for s in state:
 
-            symbol = self.lsystem.get_symbol(s)
+            letter = s['letter']
+
+            symbol = self.lsystem.get_symbol(letter)
             drawed_state += symbol
 
             # Set color
             self.set_color(symbol)
 
             # Execute symbol
-            self.execute_symbol(symbol)
+            self.execute_symbol(symbol, s['params'])
 
             progress(i*100.0/len(state))
             i += 1
@@ -194,7 +196,7 @@ class VViewer(Viewer):
         self.tubeActors.append(tubeActor)
         #self.rend.AddActor(lineActor)
 
-    def execute_symbol(self, symbol):
+    def execute_symbol(self, symbol, params):
         """
         """
 
@@ -203,12 +205,22 @@ class VViewer(Viewer):
             Draw forward
             """
 
+            if len(params) == 0:
+                radius = self.radius
+                vector = self.vector
+            elif len(params) == 1:
+                radius = float(params[0])
+                vector = self.vector
+            elif len(params) == 2:
+                radius = float(params[0])
+                vector = self.vector * float(params[1])
+
             self.draw_line( Line(p1 = self.pos,
-                                 p2 = self.pos + self.vector,
+                                 p2 = self.pos + vector,
                                  color = self.color,
-                                 radius = self.radius) )
+                                 radius = radius) )
             
-            self.pos = self.pos + self.vector
+            self.pos = self.pos + vector
 
         elif symbol in self.move_forward:
             """
@@ -224,7 +236,10 @@ class VViewer(Viewer):
             Rotation
             """
 
-            angle = self.angle
+            if len(params) == 0:
+                angle = self.angle
+            elif len(params) == 1:
+                angle = float(params[0])
 
             if symbol == '+':
                 x, y, z = self.rotate(self.vector, angle, 'U')
@@ -458,35 +473,5 @@ class VViewer(Viewer):
         """
 
         self.nbranches = len(self.tubeActors)
+
         
-
-    def getDict(self, string):
-        """
-        """
-
-        state = []
-        params = False
-        currentParams = ''
-
-        for l in string:
-            if l == '(':
-                params = True
-                
-            elif l == ')':
-                params = False
-                if currentParams:
-                    state[-1]['params'] = currentParams.split(',')
-                    print currentParams
-                    state[-1]['raw'] += '(' + currentParams.strip()  + ')'
-                    currentParams = ''
-                    
-            elif not params:
-                letter = { 'letter' : l,
-                           'params' : [],
-                           'raw' : l }
-                state.append(letter)
-                
-            elif params:
-                currentParams += l
-
-        return state
