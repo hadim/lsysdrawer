@@ -1,6 +1,6 @@
 ignore : +-[]
 
-define : radius : 0.1
+define : radius : 0.01
 define : width : 1
 define : angle : 75
 

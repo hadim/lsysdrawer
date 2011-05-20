@@ -88,7 +88,7 @@ class VViewer(Viewer):
         else:
             self.iren.AddObserver("KeyReleaseEvent", self.advance)
 
-        self.rend.GetActiveCamera().SetPosition(4, 4, 4)
+        self.rend.GetActiveCamera().SetPosition(0, -4, 0)
 
         self.disp_info()
         #self.draw_axis()
