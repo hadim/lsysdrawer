@@ -13,7 +13,8 @@ class LsystemExtractor():
         self.fname = fname
 
         # Static and simple variable
-        self.static_variables = ['name', 'iteration', 'axiom', 'angle', 'ratio']
+        self.static_variables = ['name', 'iteration', 'axiom', 'angle',
+                                 'ratio', 'radius', 'width']
 
         # Default parameters
         self.name = ''
@@ -21,6 +22,8 @@ class LsystemExtractor():
         self.iteration = 3
         self.angle = 90.0
         self.ratio = 1.0
+        self.width = 1
+        self.radius = 0.05
         
         self.rules = {}
         self.symbols = {}

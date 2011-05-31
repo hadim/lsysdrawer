@@ -20,6 +20,8 @@ class Lsystem():
         self.angle = float(grammar.angle)
         self.ratio = float(grammar.ratio)
         self.iteration = int(grammar.iteration)
+        self.width = float(grammar.width)
+        self.radius = float(grammar.radius)
 
         self.rules = grammar.rules
         self.initial_rules = copy.copy(grammar.rules)

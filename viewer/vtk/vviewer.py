@@ -65,8 +65,8 @@ class VViewer(Viewer):
         self.iren.SetInteractorStyle(self.style)
 
         # Branch initial parameters
-        self.radius = 0.05
-        self.length = 2
+        self.radius = self.lsystem.radius
+        self.length = self.lsystem.width
         self.angle = self.lsystem.angle
 
     def execute(self, dt = 1000):
@@ -135,7 +135,7 @@ class VViewer(Viewer):
         """
 
         # Init curve
-        self.vector = Point(1, 0, 0)
+        self.vector = Point(self.length, 0, 0)
         self.pos = Point(0, 0, 0)
 
         drawed_state = ""
