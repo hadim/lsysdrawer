@@ -14,4 +14,4 @@ axiom : F[+(90)B][&(90)B]F
 
 #rules : F : F[-F(width,radius)][+F]
 
-symbols : F : F
+

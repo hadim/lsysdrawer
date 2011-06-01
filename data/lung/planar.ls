@@ -10,7 +10,7 @@ angle : 45
 radius : 0.05
 width : 1
 
-axiom : [F[-F[+R][-G]][+F[+R][-G]]]F
+axiom : [F[-F[+R][-G]][+F[+R][-G]]]
 
 #rules : F : F[-F(width,radius)][+F]
 

@@ -27,6 +27,7 @@ class LsystemExtractor():
         
         self.rules = {}
         self.symbols = {}
+        self.patterns = {}
         
         self.define = {}
         self.ignores = []
@@ -68,6 +69,12 @@ class LsystemExtractor():
                     value = line[2].strip()
                     self.symbols[key] = value
 
+                # Set patterns
+                elif field == 'patterns':
+                    key = line[1].strip()
+                    value = line[2].strip()
+                    self.patterns[key] = value
+
                 # Set rules
                 elif field == 'rules':
 
@@ -76,18 +83,18 @@ class LsystemExtractor():
                     
                         self.rules[line[1]] = { 'init' : line[2].strip(),
                                                 'p' : line[3].strip(),
-                                                'out' : line[4].strip() }
+                                                'out' : line[4].strip().replace(' ', '') }
 
                     # Context rules
                     if len(line) == 4:
                     
                         self.rules[line[1]] = { 'init' : line[2].strip(),
                                                 'p' : 1,
-                                                'out' : line[3].strip() }
+                                                'out' : line[3].strip().replace(' ', '') }
 
                     # Normal rules
                     elif len(line) == 3:
 
                         self.rules[line[1]] = { 'init' : line[1].strip(),
                                                 'p' : 1,
-                                                'out' : line[2].strip() }
+                                                'out' : line[2].strip().replace(' ', '') }

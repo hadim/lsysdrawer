@@ -28,6 +28,7 @@ class Lsystem():
         self.symbols = grammar.symbols
         self.define = grammar.define
         self.ignores = grammar.ignores
+        self.patterns = grammar.patterns
         
         self.current_iter = 0
 
@@ -125,6 +126,13 @@ class Lsystem():
         candidates = {}
         p = 0.0
 
+        # Replace pattern by symbols in rules
+        for pattern in self.patterns:
+            for r in self.rules:
+                
+                self.rules[r]['out'] = self.rules[r]['out'].replace("'%s'" % pattern, self.patterns[pattern])
+                self.rules[r]['out'] = self.rules[r]['out'].replace("\"%s\"" % pattern, self.patterns[pattern])
+                
         for name, rule in self.rules.items():
 
             # Look if rule is context sensitive
@@ -184,7 +192,18 @@ class Lsystem():
 
             # Replace in rules
             for r in self.rules:
-                self.rules[r]['out'] = self.rules[r]['out'].replace(var, str(self.define[var]))
+                if ('(%s)'%var) in self.rules[r]['out'] \
+                    or (',%s)'%var) in self.rules[r]['out'] \
+                    or ('(%s,'%var) in self.rules[r]['out']:
+                    
+                    self.rules[r]['out'] = self.rules[r]['out'].replace(var, str(self.define[var]))
+
+            # Replace in patterns
+            for r in self.patterns:
+                if ('(%s)'%var) in self.patterns[r] \
+                       or (',%s)'%var) in self.patterns[r] \
+                       or ('(%s,'%var) in self.patterns[r]:
+                    self.patterns[r] = self.patterns[r].replace(var, str(self.define[var]))
 
 
     def checkContext(self, position, sign, toCheck):
