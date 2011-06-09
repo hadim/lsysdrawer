@@ -14,7 +14,7 @@ width : 1
 
 axiom : [C][-(120)D][+(120)E]
 
-patterns : planar : [F[-F[+(planar_angle)R][-(planar_angle)G]][+F[+(planar_angle)R][-(planar_angle)G]]]
+patterns : planar : [F[-F[+(planar_angle)][-(planar_angle)G]][+F[+(planar_angle)R][-(planar_angle)G]]]
 patterns : ortho : [F[-F[+^(ortho_angle)R][+&(ortho_angle)G]][+F[-^(ortho_angle)^R][-&(ortho_angle)G]]]
 patterns : branching : [F[+(90)B][&(90)B]]
 

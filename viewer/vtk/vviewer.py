@@ -88,8 +88,8 @@ class VViewer(Viewer):
         else:
             self.iren.AddObserver("KeyReleaseEvent", self.advance)
 
-        self.rend.GetActiveCamera().SetPosition(0, -4, 0)
-
+        self.rend.GetActiveCamera().SetPosition(0, 0, -4)
+        
         self.disp_info()
         #self.draw_axis()
         self.advance()
@@ -106,7 +106,7 @@ class VViewer(Viewer):
     def advance(self, widget = None, string = None):
         """
         """
-
+        
         key = self.iren.GetKeySym()
 
         if key == 'space' and not self.iterIsOver:

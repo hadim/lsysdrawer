@@ -1,7 +1,7 @@
 name : Koch_snowflake
-iteration : 4
+iteration : 8
 axiom : F
-angle : 60
+angle : 90
 
 rules : F : F+F-F-F+F
 
