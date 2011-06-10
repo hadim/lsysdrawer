@@ -6,4 +6,3 @@ ratio : 0.94
 
 rules : F : F[-&<F][<++&F]||F[-&>F][+&F]
 
-symbols : G : F
