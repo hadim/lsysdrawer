@@ -1,7 +1,6 @@
 name : Test
-iteration : 5
-axiom : X
-angle : 35
-ratio : 0.85
+iteration : 15
+angle : 29
 
+axiom : X
 rules : X : F[-X][+X]

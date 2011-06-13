@@ -1,15 +1,9 @@
 name : Dragon curve
-iteration : 6
-axiom : FX
+iteration : 10
 angle : 90
+
+axiom : FX
 
 rules : X : X+YF
 rules : Y : FX-Y
 
-symbols : F : F
-symbols : X : X
-symbols : Y : Y
-symbols : + : +
-symbols : - : -
-symbols : [ : [
-symbols : ] : ]

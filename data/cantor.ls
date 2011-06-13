@@ -7,5 +7,5 @@ rules : A : ABA
 rules : B : BBB
 
 symbols : A : F
-symbols : B : M
+symbols : B : B
 

@@ -1,5 +1,5 @@
 name : Fibonacci_number
-iteration : 5
+iteration : 10
 axiom : A
 
 rules : A : B

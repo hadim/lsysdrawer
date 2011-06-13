@@ -1,3 +1,6 @@
 #!/usr/bin/env sh
 
-python src/main.py $1
+LSYS_PATH="/home/hmary/Documents/work/kidney/lsysdrawer/"
+
+python $LSYS_PATH/src/main.py $1
+
