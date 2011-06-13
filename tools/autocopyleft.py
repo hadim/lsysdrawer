@@ -7,7 +7,7 @@ path_src = "../src/"
 fextension = [".py"]
 date_copyright = "2011"
 authors = "see AUTHORS"
-project_name = "ProfileExtractor"
+project_name = "Lsysdrawer"
 header_file = "license_header.txt"
 
 def pre_append(line, file_name):
@@ -25,6 +25,7 @@ def listdirectory(path, extension):
             if os.path.splitext(i)[1] in extension:
                 all_files.append(os.path.join(root, i)) 
     return all_files
+
 
 if __name__ == '__main__':
 
