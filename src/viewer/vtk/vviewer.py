@@ -40,6 +40,8 @@ import vtk
 from viewer.viewer import *
 from viewer.vtk.geometry import *
 
+from graphml.GraphMLExporter import *
+
 from utils import *
 
 from math import *
@@ -163,6 +165,10 @@ class VViewer(Viewer):
                 self.iterIsOver = True
                 self.disp_info()
 
+        elif key == 'g':
+
+            exporter = GraphMLExporter(self.lines)
+            exporter.write()
 
     def draw(self, state, step = -1):
         """
@@ -194,41 +200,6 @@ class VViewer(Viewer):
 
         progress(-1)
         self.check_objects(drawed_state)
-
-            
-    def draw_line(self, l):
-        """
-        """
-
-        if l in self.lines:
-            return
-        self.lines.append(l)
-
-        line = vtk.vtkLineSource()
-        line.SetPoint1(l.p1.x, l.p1.y, l.p1.z)
-        line.SetPoint2(l.p2.x, l.p2.y, l.p2.z)
-
-        # lineMapper = vtk.vtkPolyDataMapper()
-        # lineMapper.SetInputConnection(line.GetOutputPort())
-        # lineActor = vtk.vtkActor()
-        # lineActor.SetMapper(lineMapper)
-
-        tubeFilter = vtk.vtkTubeFilter()
-        tubeFilter.SetInputConnection(line.GetOutputPort())
-        tubeFilter.SetRadius(l.radius)
-        tubeFilter.SetNumberOfSides(10)
-        tubeFilter.Update()
-
-        tubeMapper = vtk.vtkPolyDataMapper()
-        tubeMapper.SetInputConnection(tubeFilter.GetOutputPort())
-        
-        tubeActor = vtk.vtkActor()
-        tubeActor.SetMapper(tubeMapper)
-        tubeActor.GetProperty().SetColor(l.color[0], l.color[1], l.color[2])
-
-        self.rend.AddActor(tubeActor)
-        self.tubeActors.append(tubeActor)
-        #self.rend.AddActor(lineActor)
 
     def execute_symbol(self, symbol, params):
         """
@@ -324,6 +295,40 @@ class VViewer(Viewer):
             """
 
             pass
+
+    def draw_line(self, l):
+        """
+        """
+
+        if l in self.lines:
+            return
+        self.lines.append(l)
+
+        line = vtk.vtkLineSource()
+        line.SetPoint1(l.p1.x, l.p1.y, l.p1.z)
+        line.SetPoint2(l.p2.x, l.p2.y, l.p2.z)
+
+        # lineMapper = vtk.vtkPolyDataMapper()
+        # lineMapper.SetInputConnection(line.GetOutputPort())
+        # lineActor = vtk.vtkActor()
+        # lineActor.SetMapper(lineMapper)
+
+        tubeFilter = vtk.vtkTubeFilter()
+        tubeFilter.SetInputConnection(line.GetOutputPort())
+        tubeFilter.SetRadius(l.radius)
+        tubeFilter.SetNumberOfSides(10)
+        tubeFilter.Update()
+
+        tubeMapper = vtk.vtkPolyDataMapper()
+        tubeMapper.SetInputConnection(tubeFilter.GetOutputPort())
+        
+        tubeActor = vtk.vtkActor()
+        tubeActor.SetMapper(tubeMapper)
+        tubeActor.GetProperty().SetColor(l.color[0], l.color[1], l.color[2])
+
+        self.rend.AddActor(tubeActor)
+        self.tubeActors.append(tubeActor)
+        #self.rend.AddActor(lineActor)
 
     def disp_info(self):
         """
