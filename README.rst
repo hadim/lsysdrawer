@@ -14,7 +14,9 @@ Requirements
 How to run ?
 ============
 
-$ python main.y <path to .ls file>
+::
+
+   $ python main.y <path to .ls file>
 
 .. note::
    There is some .ls file in data/ folder. 
