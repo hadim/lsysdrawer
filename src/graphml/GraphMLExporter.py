@@ -66,4 +66,4 @@ class GraphMLExporter():
         """
 
         parser = GraphMLParser()
-        parser.write(self.graph, "test.graphml")
+        parser.write(self.graph, "graph.graphml")
