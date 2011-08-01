@@ -15,7 +15,6 @@ How to run ?
 ============
 
 ::
-
    $ python main.y <path to .ls file>
 
 .. note::
