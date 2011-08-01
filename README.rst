@@ -6,6 +6,7 @@ Requirements
   
   * http://www.vtk.org/
   * Linux:
+    
     * apt-get install python-vtk on debian based system
     * should be vtk-python on red hat based system
   * Windows: unofficial binaries with python binding : http://cpbotha.net/2009/08/13/python-2-6-enabled-vtk-5-4-windows-binaries/
