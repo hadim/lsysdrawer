@@ -3,6 +3,7 @@ Requirements
 
 * Python > 2.6
 * VTK :
+  
   * http://www.vtk.org/
   * Linux:
     * apt-get install python-vtk on debian based system
