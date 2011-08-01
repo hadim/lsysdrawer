@@ -99,7 +99,7 @@ class Line():
         """
         """
 
-        if (line.p1 == self.p1 and line.p2 == self.p2):
+        if ((line.p1 == self.p1 and line.p2 == self.p2) or (line.p1 == self.p2 and line.p2 == self.p1)):
 
             if line.radius == self.radius:
 

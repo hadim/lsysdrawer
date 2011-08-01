@@ -18,6 +18,7 @@ class GraphMLExporter():
 
         self.lines = lines
         self.graph = Graph()
+        self.i = 0
 
         self.createGraph()
 
@@ -25,13 +26,12 @@ class GraphMLExporter():
         """
         """
 
-        i = 0
         mul = 100
 
         for line in self.lines:
-            n1 = self.graph.add_node(str(i))
-            n2 = self.graph.add_node(str(i+1))
-            i += 1
+
+            n1 = self.checkNode(str(self.i))
+            n2 = self.checkNode(str(self.i))
 
             n1['x'] = line.p1.x * mul
             n1['y'] = line.p1.y * mul
@@ -42,6 +42,24 @@ class GraphMLExporter():
             n2['z'] = line.p2.z * mul
 
             self.graph.add_edge(n1, n2)
+
+    def checkNode(self, label):
+        """
+        """
+
+        exist = False
+        
+        for n in self.graph.nodes():
+            if label == n['label']:
+                exist = True
+                node = n
+
+        if exist:
+            return node
+        else:
+            self.i += 1
+            return self.graph.add_node(label)
+            
 
     def write(self, ):
         """

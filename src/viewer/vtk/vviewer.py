@@ -71,6 +71,7 @@ class VViewer(Viewer):
         self.nbranches = 0
         self.tubeActors = []
         self.lines = []
+        self.t = []
 
         self.init()
 
@@ -167,7 +168,7 @@ class VViewer(Viewer):
 
         elif key == 'g':
 
-            exporter = GraphMLExporter(self.lines)
+            exporter = GraphMLExporter(self.t)
             exporter.write()
 
     def draw(self, state, step = -1):
@@ -224,6 +225,9 @@ class VViewer(Viewer):
                                  p2 = self.pos + vector,
                                  color = self.color,
                                  radius = radius) )
+
+            self.t.append(Line(p1 = self.pos,
+                               p2 = self.pos + vector))
             
             self.pos = self.pos + vector
 
