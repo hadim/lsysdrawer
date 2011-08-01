@@ -1,15 +1,14 @@
 Requirements
 ============
 
-* Python > 2.6
-* VTK :
-  
-  * http://www.vtk.org/
+* Python 2.6 or above
+* VTK with Python binding:
+
   * Linux:
-    
+
     * apt-get install python-vtk on debian based system
-    * should be vtk-python on red hat based system
-  * Windows: unofficial binaries with python binding : http://cpbotha.net/2009/08/13/python-2-6-enabled-vtk-5-4-windows-binaries/
+    * it should be vtk-python on red hat based system
+  * Windows: unofficial binaries with python binding is available :download"`here<http://cpbotha.net/2009/08/13/python-2-6-enabled-vtk-5-4-windows-binaries/>`.
 
 How to run ?
 ============
