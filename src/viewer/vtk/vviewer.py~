@@ -128,7 +128,7 @@ class VViewer(Viewer):
         self.rend.GetActiveCamera().SetPosition(0, 0, -4)
         
         self.disp_info()
-        #self.draw_axis()
+        self.draw_axis()
         self.advance()
         self.render_window()
 
